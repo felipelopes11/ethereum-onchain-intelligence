@@ -17,8 +17,8 @@ jobs:
     name: Lint, typecheck, unit & integration tests, build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: npm
@@ -46,8 +46,8 @@ jobs:
     env:
       DATABASE_URL: postgres://eoi:eoi@localhost:5432/eoi
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: npm
@@ -57,9 +57,11 @@ jobs:
       - run: npm run db:migrate
       - run: npm run db:migrate
       - name: Schema drift check (migrations match schema.ts)
+        # drizzle-kit is called directly: nested `npm run` would swallow `--name`.
+        working-directory: packages/database
         run: |
-          npm run db:generate -- --name drift-check
-          if [ -n "$(git status --porcelain packages/database/drizzle)" ]; then
+          npx drizzle-kit generate --name drift-check
+          if [ -n "$(git status --porcelain drizzle)" ]; then
             echo "schema.ts changed without a committed migration"; git status --porcelain; exit 1
           fi
 
@@ -67,10 +69,10 @@ jobs:
     name: Solidity (Foundry)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           submodules: recursive
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: npm
@@ -87,8 +89,8 @@ jobs:
     name: End-to-end (Playwright)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: npm
@@ -96,7 +98,7 @@ jobs:
       - run: npx playwright install --with-deps chromium
         working-directory: apps/web
       - run: npm run test:e2e
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         if: failure()
         with:
           name: playwright-report
@@ -107,7 +109,7 @@ jobs:
     name: Docker images
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - run: docker compose build
       - name: Boot the stack and wait for readiness
         run: |

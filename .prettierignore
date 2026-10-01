@@ -1,0 +1,13 @@
+node_modules
+dist
+.next
+coverage
+.data
+package-lock.json
+packages/database/drizzle/meta
+contracts/out
+contracts/cache
+contracts/lib
+apps/web/next-env.d.ts
+apps/web/playwright-report
+apps/web/test-results

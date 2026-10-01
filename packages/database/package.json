@@ -1,0 +1,27 @@
+{
+  "name": "@eoi/database",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./testing": "./src/testing.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "generate": "drizzle-kit generate",
+    "migrate": "tsx --env-file-if-exists=../../.env src/migrate-cli.ts"
+  },
+  "dependencies": {
+    "@eoi/shared": "*",
+    "drizzle-orm": "^0.45.0",
+    "pg": "^8.16.0",
+    "@eoi/config": "*"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "^0.5.0",
+    "@types/pg": "^8.15.0",
+    "drizzle-kit": "^0.31.0",
+    "@electric-sql/pglite-socket": "^0.2.0"
+  }
+}

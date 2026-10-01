@@ -1,0 +1,16 @@
+{
+  "name": "@eoi/blockchain",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@eoi/shared": "*",
+    "viem": "^2.38.0"
+  }
+}

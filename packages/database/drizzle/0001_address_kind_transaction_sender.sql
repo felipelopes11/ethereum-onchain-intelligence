@@ -1,0 +1,1 @@
+ALTER TYPE "public"."address_kind_source" ADD VALUE 'transaction-sender';

@@ -1,0 +1,57 @@
+{
+  "name": "ethereum-onchain-intelligence",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Open-source Ethereum indexer and address analysis platform built on verifiable on-chain data.",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=20.11"
+  },
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present && tsc -p tsconfig.json",
+    "lint": "eslint . --max-warnings=0",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "npm run test:e2e --workspace=@eoi/web",
+    "test:contracts": "cd contracts && forge test -vv",
+    "db:generate": "npm run generate --workspace=@eoi/database",
+    "db:migrate": "npm run migrate --workspace=@eoi/database",
+    "db:local": "tsx scripts/local-postgres.ts",
+    "dev:indexer": "npm run dev --workspace=@eoi/indexer",
+    "dev:api": "npm run dev --workspace=@eoi/api",
+    "dev:web": "npm run dev --workspace=@eoi/web",
+    "demo": "tsx --env-file-if-exists=.env scripts/demo.ts",
+    "verify:protocols": "tsx --env-file-if-exists=.env scripts/verify-protocols.ts",
+    "check:secrets": "tsx scripts/check-secrets.ts",
+    "ci": "npm run lint && npm run typecheck && npm run test && npm run build"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "^0.5.8",
+    "@electric-sql/pglite-socket": "^0.2.11",
+    "@eslint/js": "^10.0.1",
+    "@openzeppelin/contracts": "^5.6.1",
+    "@types/node": "^24.0.0",
+    "eslint": "^10.11.0",
+    "eslint-config-prettier": "^10.1.0",
+    "globals": "^17.13.0",
+    "prettier": "^3.6.0",
+    "tsx": "^4.20.0",
+    "typescript": "~5.9.3",
+    "typescript-eslint": "^8.46.0",
+    "vitest": "^4.0.0"
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true,
+    "esbuild@0.18.20": true,
+    "esbuild@0.25.12": true,
+    "esbuild@0.27.7": true
+  }
+}
